@@ -6,7 +6,6 @@ type Store interface {
 	Close()
 	PublishMeowCreated(meow schema.Meow) error
 	SubscribeMeowCreated() (<-chan MeowCreatedMessage, error)
-	OnMeowCreated(f func(MeowCreatedMessage)) error
 }
 
 var implement Store
@@ -25,8 +24,4 @@ func PublishMeowCreated(meow schema.Meow) error {
 
 func SubscribeMeowCreated() (<-chan MeowCreatedMessage, error) {
 	return implement.SubscribeMeowCreated()
-}
-
-func OnMeowCreated(f func(MeowCreatedMessage)) error {
-	return implement.OnMeowCreated(f)
 }

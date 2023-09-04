@@ -20,6 +20,10 @@ func New(url string) (*PostgresRepository, error) {
 	return &PostgresRepository{db: db}, nil
 }
 
+func (d PostgresRepository) Close() {
+	d.db.Close()
+}
+
 func (d PostgresRepository) InsertMeow(ctx context.Context, meow schema.Meow) error {
 	if _, err := d.db.ExecContext(ctx, `insert into meows values($1, $2, $3)`, meow.ID, meow.Body, meow.CreatedAt); err != nil {
 		return err
