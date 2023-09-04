@@ -1,19 +1,19 @@
-FROM golang:1.10.2-alpine3.7 AS build
+FROM golang:1.18-alpine AS build
 RUN apk --no-cache add gcc g++ make ca-certificates
 WORKDIR /go/src/github.com/tinrab/meower
 
-COPY Gopkg.lock Gopkg.toml ./
-COPY vendor vendor
+COPY go.mod ./
+COPY go.sum  ./
 COPY util util
 COPY event event
 COPY db db
 COPY search search
 COPY schema schema
-COPY meow-service meow-service
-COPY query-service query-service
-COPY pusher-service pusher-service
+COPY service/meow meow-service
+COPY service/query query-service
+COPY service/pusher pusher-service
 
-RUN go install ./...
+RUN go mod download
 
 FROM alpine:3.7
 WORKDIR /usr/bin
