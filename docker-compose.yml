@@ -1,4 +1,12 @@
 services:
+  nginx:
+    build: "./nginx"
+    ports:
+      - "8080:80"
+    depends_on:
+      - "meow"
+      - "query"
+      - "pusher"
   meow:
     build: "."
     command: "meow-service"
