@@ -21,6 +21,10 @@ func New(url string) (*ElasticRepository, error) {
 	return &ElasticRepository{client: client}, nil
 }
 
+func (e *ElasticRepository) Close() {
+	e.Close()
+}
+
 func (e *ElasticRepository) InsertMeow(ctx context.Context, meow schema.Meow) error {
 	_, err := e.client.Index().
 		Index("meows").
@@ -33,7 +37,7 @@ func (e *ElasticRepository) InsertMeow(ctx context.Context, meow schema.Meow) er
 	return err
 }
 
-func (e *ElasticRepository) ListMeows(ctx context.Context, query string, skip, take uint64) ([]schema.Meow, error) {
+func (e *ElasticRepository) SearchMeows(ctx context.Context, query string, skip, take uint64) ([]schema.Meow, error) {
 	res, err := e.client.Search().
 		Index("meows").
 		Query(

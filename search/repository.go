@@ -8,7 +8,7 @@ import (
 type Repository interface {
 	Close()
 	InsertMeow(ctx context.Context, meow schema.Meow) error
-	ListMeows(ctx context.Context, query string, skip, take uint64) ([]schema.Meow, error)
+	SearchMeows(ctx context.Context, query string, skip, take uint64) ([]schema.Meow, error)
 }
 
 var implement Repository
@@ -25,6 +25,6 @@ func InsertMeow(ctx context.Context, meow schema.Meow) error {
 	return implement.InsertMeow(ctx, meow)
 }
 
-func ListMeows(ctx context.Context, query string, skip, take uint64) ([]schema.Meow, error) {
-	return implement.ListMeows(ctx, query, skip, take)
+func SearchMeows(ctx context.Context, query string, skip, take uint64) ([]schema.Meow, error) {
+	return implement.SearchMeows(ctx, query, skip, take)
 }
