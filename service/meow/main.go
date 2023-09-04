@@ -13,10 +13,10 @@ import (
 )
 
 type Config struct {
-	PostgresDB       string `envconfig:"postgres_db"`
-	PostgresUser     string `envconfig:"postgres_user"`
-	PostgresPassword string `envconfig:"postgres_password"`
-	NatsAddress      string `envconfig:"nats_address"`
+	PostgresDB       string `envconfig:"POSTGRES_DB"`
+	PostgresUser     string `envconfig:"POSTGRES_USER"`
+	PostgresPassword string `envconfig:"POSTGRES_PASSWORD"`
+	NatsAddress      string `envconfig:"NATS_ADDRESS"`
 }
 
 func main() {

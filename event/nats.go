@@ -83,3 +83,12 @@ func (e *NatsEventStore) readMessage(data []byte, m interface{}) error {
 
 	return gob.NewDecoder(&b).Decode(m)
 }
+
+func (e *NatsEventStore) OnMeowCreated(f func(MeowCreatedMessage)) (err error) {
+	m := MeowCreatedMessage{}
+	e.meowCreatedSubscription, err = e.nc.Subscribe(m.Key(), func(msg *nats.Msg) {
+		e.readMessage(msg.Data, &m)
+		f(m)
+	})
+	return
+}
