@@ -13,9 +13,9 @@ import (
 func searchMeowsHandler(w http.ResponseWriter, req *http.Request) {
 	ctx := req.Context()
 
-	query := req.FormValue("query")
+	query := req.FormValue("query-service")
 	if len(query) == 0 {
-		util.ResponseError(w, http.StatusBadRequest, "missing query parameter")
+		util.ResponseError(w, http.StatusBadRequest, "missing query-service parameter")
 		return
 	}
 

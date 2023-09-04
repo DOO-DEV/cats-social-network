@@ -14,8 +14,8 @@ services:
     ports:
       - "8080:80"
     depends_on:
-      - "meow"
       - "query"
+      - "meow"
       - "pusher"
   meow:
     build: "."

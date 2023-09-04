@@ -28,7 +28,7 @@ func (e *ElasticRepository) Close() {
 func (e *ElasticRepository) InsertMeow(ctx context.Context, meow schema.Meow) error {
 	_, err := e.client.Index().
 		Index("meows").
-		Type("meow").
+		Type("meow-service").
 		Id(meow.ID).
 		BodyJson(meow).
 		Refresh("wait_for").

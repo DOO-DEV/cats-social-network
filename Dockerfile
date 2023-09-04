@@ -9,11 +9,11 @@ COPY event event
 COPY db db
 COPY search search
 COPY schema schema
-COPY service/meow meow-service
-COPY service/query query-service
-COPY service/pusher pusher-service
+COPY meow-service meow-service
+COPY query-service query-service
+COPY pusher-service pusher-service
 
-RUN go mod download
+RUN go install ./...
 
 FROM alpine:3.7
 WORKDIR /usr/bin

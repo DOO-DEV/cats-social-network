@@ -27,7 +27,7 @@ func createMeowHandler(w http.ResponseWriter, req *http.Request) {
 	createdAt := time.Now().UTC()
 	id, err := ksuid.NewRandomWithTime(createdAt)
 	if err != nil {
-		util.ResponseError(w, http.StatusInternalServerError, "failed to create meow")
+		util.ResponseError(w, http.StatusInternalServerError, "failed to create meow-service")
 		return
 	}
 	meow := schema.Meow{
@@ -37,7 +37,7 @@ func createMeowHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	if err := db.InsertMeow(ctx, meow); err != nil {
-		util.ResponseError(w, http.StatusInternalServerError, "failed to create meow")
+		util.ResponseError(w, http.StatusInternalServerError, "failed to create meow-service")
 		return
 	}
 

@@ -11,7 +11,7 @@ function App() {
         </div>
         <div className="row">
             <div className="col">
-                <Timeline  meows={[]}/>
+                <Timeline/>
             </div>
             <div className="col">
                 <Search />

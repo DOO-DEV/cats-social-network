@@ -31,7 +31,7 @@ func main() {
 
 		// Push messages to clients
 		err = es.OnMeowCreated(func(m event.MeowCreatedMessage) {
-			log.Printf("meow received: %v\n", m)
+			log.Printf("meow-service received: %v\n", m)
 			hub.broadcast(newMeowCreatedMessage(m.ID, m.Body, m.CreatedAt), nil)
 		})
 		if err != nil {

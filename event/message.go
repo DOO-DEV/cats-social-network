@@ -13,5 +13,5 @@ type MeowCreatedMessage struct {
 }
 
 func (m MeowCreatedMessage) Key() string {
-	return "meow.created"
+	return "meow-service.created"
 }
