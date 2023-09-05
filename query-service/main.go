@@ -91,7 +91,7 @@ func newRouter() (router *mux.Router) {
 	router = mux.NewRouter()
 	router.HandleFunc("/meows", listMeowsHandler).
 		Methods("GET")
-	router.HandleFunc("/search.jsx", searchMeowsHandler).
+	router.HandleFunc("/search", searchMeowsHandler).
 		Methods("GET")
 	return
 }

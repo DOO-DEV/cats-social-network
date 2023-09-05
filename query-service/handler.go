@@ -10,19 +10,36 @@ import (
 	"strconv"
 )
 
-func searchMeowsHandler(w http.ResponseWriter, req *http.Request) {
-	ctx := req.Context()
+func searchMeowsHandler(w http.ResponseWriter, r *http.Request) {
+	var err error
+	ctx := r.Context()
 
-	query := req.FormValue("query-service")
+	// Read parameters
+	query := r.FormValue("query")
 	if len(query) == 0 {
-		util.ResponseError(w, http.StatusBadRequest, "missing query-service parameter")
+		util.ResponseError(w, http.StatusBadRequest, "Missing query parameter")
 		return
+	}
+	skip := uint64(0)
+	skipStr := r.FormValue("skip")
+	take := uint64(100)
+	takeStr := r.FormValue("take")
+	if len(skipStr) != 0 {
+		skip, err = strconv.ParseUint(skipStr, 10, 64)
+		if err != nil {
+			util.ResponseError(w, http.StatusBadRequest, "Invalid skip parameter")
+			return
+		}
+	}
+	if len(takeStr) != 0 {
+		take, err = strconv.ParseUint(takeStr, 10, 64)
+		if err != nil {
+			util.ResponseError(w, http.StatusBadRequest, "Invalid take parameter")
+			return
+		}
 	}
 
-	skip, take, err := bindParameter(w, req)
-	if err != nil {
-		return
-	}
+	// Search meows
 	meows, err := search.SearchMeows(ctx, query, skip, take)
 	if err != nil {
 		log.Println(err)
@@ -33,40 +50,37 @@ func searchMeowsHandler(w http.ResponseWriter, req *http.Request) {
 	util.ResponseOk(w, meows)
 }
 
-func listMeowsHandler(w http.ResponseWriter, req *http.Request) {
-	ctx := req.Context()
+func listMeowsHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	var err error
 
-	skip, take, err := bindParameter(w, req)
-	if err != nil {
-		return
+	// Read parameters
+	skip := uint64(0)
+	skipStr := r.FormValue("skip")
+	take := uint64(100)
+	takeStr := r.FormValue("take")
+	if len(skipStr) != 0 {
+		skip, err = strconv.ParseUint(skipStr, 10, 64)
+		if err != nil {
+			util.ResponseError(w, http.StatusBadRequest, "Invalid skip parameter")
+			return
+		}
+	}
+	if len(takeStr) != 0 {
+		take, err = strconv.ParseUint(takeStr, 10, 64)
+		if err != nil {
+			util.ResponseError(w, http.StatusBadRequest, "Invalid take parameter")
+			return
+		}
 	}
 
+	// Fetch meows
 	meows, err := db.ListMeows(ctx, skip, take)
 	if err != nil {
 		log.Println(err)
-		util.ResponseError(w, http.StatusInternalServerError, "could not fetch meows")
+		util.ResponseError(w, http.StatusInternalServerError, "Could not fetch meows")
 		return
 	}
 
 	util.ResponseOk(w, meows)
-}
-
-func bindParameter(w http.ResponseWriter, req *http.Request) (uint64, uint64, error) {
-	skip := uint64(0)
-	skipStr := req.FormValue("skip")
-	take := uint64(100)
-	takeStr := req.FormValue("take")
-
-	skip, err := strconv.ParseUint(skipStr, 10, 64)
-	if err != nil {
-		util.ResponseError(w, http.StatusBadRequest, "invalid skip parameter")
-		return 0, 0, err
-	}
-	take, err = strconv.ParseUint(takeStr, 10, 64)
-	if err != nil {
-		util.ResponseError(w, http.StatusBadRequest, "invalid take parameter")
-		return 0, 0, err
-	}
-
-	return skip, take, nil
 }

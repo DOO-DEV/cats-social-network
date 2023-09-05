@@ -14,6 +14,7 @@ export const Timeline = () => {
     }, [])
 
     const onSubmit = (e) => {
+        e.preventDefault()
         api.post("/meows", null, {
             params: {
                 body: e.target.input
